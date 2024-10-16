@@ -1,0 +1,211 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2a2a2a;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.game-container {
+    text-align: center;
+}
+
+.players {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.player {
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.player-hand img {
+    width: 100px;
+    height: 150px;
+    margin: 0 10px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.player-hand img:hover {
+    transform: translateY(-20px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenedor del mazo de cartas */
+.deck {
+    position: relative; /* Necesario para que las cartas dentro puedan posicionarse de forma absoluta */
+    width: 120px;
+    height: 180px;
+    margin: 0 auto;
+}
+
+/* Estilos base para las cartas del mazo */
+.deck-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Posicionando cada carta ligeramente hacia la derecha y abajo */
+#card1 {
+    z-index: 5;
+    top: 0;
+    left: 0;
+}
+#card2 {
+    z-index: 4;
+    top: 3px;
+    left: 3px;
+}
+#card3 {
+    z-index: 3;
+    top: 6px;
+    left: 6px;
+}
+#card4 {
+    z-index: 2;
+    top: 9px;
+    left: 9px;
+}
+#card5 {
+    z-index: 1;
+    top: 12px;
+    left: 12px;
+}
+
+/* Hover para agregar más interactividad */
+.deck-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    width: 100px;
+    height: 150px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin: 0 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.player-hand {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.player-card {
+    width: 100px;
+    height: 150px;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    margin: 0 10px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.player-card:hover {
+    transform: translateY(-20px);
+}
+
+/* Contenedor general para los oponentes */
+.opponent-area {
+    display: flex;
+    justify-content: space-between; /* Aumentar el espacio entre los jugadores */
+    margin: 20px auto;
+    width: 80%; /* Ajustar el ancho para separar más los jugadores */
+}
+
+/* Contenedor para la mano de cada jugador */
+.opponent-hand {
+    position: relative; /* Para apilar las cartas correctamente */
+    width: 150px; /* Ajustar el ancho según el tamaño de las cartas */
+    height: 180px; /* Tamaño de las cartas */
+    margin: 0 50px; /* Aumentar el espacio entre cada oponente */
+}
+
+/* Estilo para las cartas de los oponentes */
+.opponent-card {
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Apilar las cartas ligeramente desplazadas */
+#opponent1-card1 {
+    top: 0;
+    left: 0;
+}
+#opponent1-card2 {
+    top: 10px;
+    left: 20px;
+}
+#opponent1-card3 {
+    top: 20px;
+    left: 40px;
+}
+
+/* Apilar las cartas para el segundo oponente */
+#opponent2-card1 {
+    top: 0;
+    left: 0;
+}
+#opponent2-card2 {
+    top: 10px;
+    left: 20px;
+}
+#opponent2-card3 {
+    top: 20px;
+    left: 40px;
+}
+
+/* Apilar las cartas para el tercer oponente */
+#opponent3-card1 {
+    top: 0;
+    left: 0;
+}
+#opponent3-card2 {
+    top: 10px;
+    left: 20px;
+}
+#opponent3-card3 {
+    top: 20px;
+    left: 40px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #5cb85c;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #4cae4c;
+}
+
