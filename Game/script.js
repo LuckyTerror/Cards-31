@@ -1,8 +1,14 @@
-// Definir todas las cartas del mazo
-// Imagen trasera de la carta
+// Variables principales
 const backOfCardImage = 'images/card_back.png';
-// Simulación de un mazo de cartas
-const deck = [
+const playerNames = ["Carlos", "Ana", "Luis", "María", "Jorge", "Elena", "Pedro", "Lucía"];
+const numPlayers = 4; 
+let players = [];
+let discardPile = [];
+let hands = [];
+
+let cardExchangedThisTurn = false, playerHasPlanted = false;
+
+let deck = [
     // Corazones
     { id: 1, value: 2, suit: 'corazones', image: 'images/card_2_corazones.png' },
     { id: 2, value: 3, suit: 'corazones', image: 'images/card_3_corazones.png' },
@@ -60,33 +66,119 @@ const deck = [
     { id: 51, value: 10, suit: 'treboles', image: 'images/card_queen_treboles.png' },
     { id: 52, value: 10, suit: 'treboles', image: 'images/card_king_treboles.png' },
     //Joker
-    { id: 53, value: 11, suit: 'joker', image: 'images/card_joker.png' }
+    { id: 53, value: 11, suit: 'joker', image: 'images/card_joker.png' },
+    
 ];
-
-// Barajar cartas de forma aleatoria
-function shuffleDeck(deck) {
+// Mezcla la baraja y la prepara para el juego
+function initializeGame() {
+    shuffleDeck(deck);
+    hands = dealInitialHands(deck, numPlayers);
+    discardPile.push(deck.pop()); // Coloca la primera carta en la pila de descartes
+  }
+  
+  // Función de mezcla usando Fisher-Yates
+  function shuffleDeck(deck) {
     for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]]; // Intercambio de elementos
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
     }
+  }
+  
+  // Función para repartir cartas a cada jugador (3 cartas por jugador)
+  function dealInitialHands(deck, numPlayers) {
+    return Array.from({ length: numPlayers }, () => [
+      deck.pop(),
+      deck.pop(),
+      deck.pop()
+    ]);
+  }
+  
+  // Llamada inicial para preparar el juego
+  initializeGame();
+
+  let currentPlayer = 0; // Índice del jugador que tiene el turno
+let gameEnded = false;
+
+// Función para gestionar el turno del jugador
+function playerTurn(playerIndex) {
+  if (gameEnded) return;
+
+  const playerHand = hands[playerIndex];
+  
+  // El jugador puede elegir entre tomar una carta del mazo o de la pila de descartes
+  const drawnCard = confirm("¿Quieres tomar una carta del mazo? OK para mazo, Cancelar para pila de descartes") 
+      ? deck.pop() 
+      : discardPile.pop();
+
+  // Muestra la carta tomada (opcional)
+  console.log(`Jugador ${playerIndex + 1} tomó una carta:`, drawnCard);
+
+  // El jugador elige qué carta descartar de su mano
+  const discardIndex = prompt("¿Cuál carta deseas descartar? (0, 1 o 2)");
+  const discardedCard = playerHand[discardIndex];
+  playerHand[discardIndex] = drawnCard;
+  discardPile.push(discardedCard); // Añade la carta descartada a la pila
+
+  console.log(`Jugador ${playerIndex + 1} descartó:`, discardedCard);
+
+  // Si el jugador decide plantarse
+  if (confirm("¿Quieres plantarte?")) {
+    checkForEndGame(playerIndex);
+  }
+
+  // Pasar turno al siguiente jugador
+  currentPlayer = (currentPlayer + 1) % numPlayers;
+  if (currentPlayer === 0 && gameEnded) endGame();
 }
 
-document.getElementById('start-game').addEventListener('click', startGame);
-
-function startGame() {
-    console.log("Juego iniciado");
-    shuffleDeck(deck); // Mezclamos el mazo
-    dealCards();
+// Función para avanzar los turnos
+function nextTurn() {
+  playerTurn(currentPlayer);
 }
 
-function dealCards() {
-    const playerHand = document.querySelectorAll('.player-card');
-
-    // Repartimos 3 cartas al jugador (el ejemplo es para un solo jugador por ahora)
-    for (let i = 0; i < 3; i++) {
-        const card = deck[i]; // Asignamos las primeras 3 cartas del mazo
-        playerHand[i].src = card.image;
-        playerHand[i].alt = `${card.value} of ${card.suit}`;
-        playerHand[i].dataset.value = card.value; // Guardar valor de la carta para cálculos futuros
+// Chequea condiciones de finalización si un jugador se planta
+function checkForEndGame(playerIndex) {
+    const playerScore = calculateScore(hands[playerIndex]);
+    console.log(`Jugador ${playerIndex + 1} se ha plantado con ${playerScore} puntos.`);
+  
+    if (playerScore === 31 || checkThreeAces(hands[playerIndex])) {
+      gameEnded = true;
+      console.log(`¡Jugador ${playerIndex + 1} gana con ${playerScore} puntos!`);
+      endGame();
     }
-}
+  }
+  
+  // Chequea si el jugador tiene 3 ases
+  function checkThreeAces(hand) {
+    return hand.every(card => card.value === 11);
+  }
+  
+  // Función para calcular los puntos del jugador
+  function calculateScore(hand) {
+    const suit = hand[0].suit;
+    return hand.filter(card => card.suit === suit).reduce((sum, card) => sum + card.value, 0);
+  }
+  
+  // Función de finalización que muestra los resultados
+  function endGame() {
+    gameEnded = true;
+    console.log("Fin del juego. Puntos de cada jugador:");
+    hands.forEach((hand, index) => {
+      const score = calculateScore(hand);
+      console.log(`Jugador ${index + 1}: ${score} puntos`);
+    });
+  }
+
+  // Configuración inicial de eventos en botones
+document.getElementById('btnPlantarse').addEventListener('click', () => {
+    if (!gameEnded) {
+      checkForEndGame(currentPlayer);
+      currentPlayer = (currentPlayer + 1) % numPlayers;
+      if (currentPlayer === 0) endGame();
+    }
+  });
+  
+  document.getElementById('btnTomarCarta').addEventListener('click', () => {
+    if (!gameEnded) nextTurn();
+  });
+  

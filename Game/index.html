@@ -3,57 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego 31</title>
+    <title>31 Cards Game</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Blaka+Hollow&family=Ewert&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Blaka+Hollow&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Blaka+Hollow&family=Ewert&family=Tilt+Prism&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="game-container">
-        <h1>Juego 31</h1>
-        <div class="players">
-            <!-- Contenedores para las cartas de los 4 jugadores -->
-            <div class="player" id="player-1">Jugador 1</div>
-            <div class="player" id="player-2">Jugador 2</div>
-            <div class="player" id="player-3">Jugador 3</div>
-            <div class="player" id="player-4">Jugador 4</div>
+    <div id="game-title">31 Cards Game</div>
+    
+    <div id="game-container">
+        <div id="deck" class="deck">
+            <img id="card1" class="deck-card" src="images/card_back.png" alt="Carta del Mazo">
+            <img id="card2" class="deck-card" src="images/card_back.png" alt="Carta del Mazo">
+            <img id="card3" class="deck-card" src="images/card_back.png" alt="Carta del Mazo">
+            <img id="card4" class="deck-card" src="images/card_back.png" alt="Carta del Mazo">
+            <img id="card5" class="deck-card" src="images/card_back.png" alt="Carta del Mazo">
         </div>
-
-        <!-- Cartas de los oponentes -->
-        <div class="opponent-area">
-            <div class="opponent-hand">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent1-card1">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent1-card2">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent1-card3">
+        <div id="player-1" class="player">
+            <h2 id="player-1-name">Jugador 1</h2>
+            <div class="card-container">
+                <img class="player-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="player-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="player-card" src="images/card_back.png" alt="Carta Oculta">
             </div>
-            <div class="opponent-hand">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent2-card1">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent2-card2">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent2-card3">
-            </div>
-            <div class="opponent-hand">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent3-card1">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent3-card2">
-                <img src="images/card_back.png" alt="Carta Oculta" class="opponent-card" id="opponent3-card3">
-            </div>
+            <div id="player-1-score">0</div>
         </div>
-
-        <div class="deck">
-            <!-- Mostrar cartas ocultas del mazo central -->
-            <img src="images/card_back.png" alt="Mazo de Cartas" class="deck-card" id="card1">
-            <img src="images/card_back.png" alt="Mazo de Cartas" class="deck-card" id="card2">
-            <img src="images/card_back.png" alt="Mazo de Cartas" class="deck-card" id="card3">
-            <img src="images/card_back.png" alt="Mazo de Cartas" class="deck-card" id="card4">
-            <img src="images/card_back.png" alt="Mazo de Cartas" class="deck-card" id="card5">
-        </div>      
-
-        <div class="player-hand">
-            <!-- Espacios vacíos donde se mostrarán las cartas dinámicamente -->
-            <img src="images/card_back.png" alt="Carta 1" class="player-card" id="card-1">
-            <img src="images/card_back.png" alt="Carta 2" class="player-card" id="card-2">
-            <img src="images/card_back.png" alt="Carta 3" class="player-card" id="card-3">
-        </div>     
-
-        <button id="start-game">Iniciar Juego</button>
+        <!-- Contenedor para la pila de descartes -->
+        <div id="discard-pile-container">
+            <img id="discarded-card" class="discard-card" src="images/card_back.png" alt="Pila de descartes" />
+        </div>
+        <div id="opponent1" class="opponent">
+            <h2 id="opponent1-name">Oponente 1</h2>
+            <div class="card-container">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+            </div>
+            <div id="opponent1-score">0</div>
+        </div>
+        <div id="opponent2" class="opponents">
+            <h2 id="opponent2-name">Oponente 2</h2>
+            <div class="card-container">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+            </div>
+            <div id="opponent2-score">0</div>
+        </div>
+        <div id="opponent3" class="opponents">
+            <h2 id="opponent3-name">Oponente 3</h2>
+            <div class="card-container">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+                <img class="opponent-card" src="images/card_back.png" alt="Carta Oculta">
+            </div>
+            <div id="opponent3-score">0</div>
+        </div>
     </div>
+    <div class="buttons">
+        <button id="start-game">Iniciar Juego</button>
+        <button id="plantarse">Plantarse</button>
+        
+    </div>
+    <div id="decision-buttons" style="display: none;">
+        <button id="draw-from-deck">Mazo</button>
+        <button id="draw-from-discard">Descartadas</button>  
+    </div>
+    
 
     <script src="script.js"></script>
 </body>
